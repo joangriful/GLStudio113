@@ -1,0 +1,13 @@
+/* Footer */
+.footer {
+    padding: 60px 5%;
+    text-align: center;
+    border-top: 1px solid var(--border-color);
+    background: var(--light-bg);
+}
+
+.footer-content {
+    color: var(--text-gray);
+    font-weight: 300;
+}
+

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eventos de Moda - Portfolio</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="gallery-styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Cursor personalizado -->
+    <div class="custom-cursor"></div>
+    <div class="cursor-follower"></div>
+
+    <!-- Botón de menú -->
+    <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
+        <span class="menu-icon">
+            <span class="menu-line"></span>
+            <span class="menu-line"></span>
+            <span class="menu-line"></span>
+        </span>
+    </button>
+
+    <!-- Navegación flotante -->
+    <nav class="floating-nav" id="floatingNav">
+        <div class="nav-item" data-section="home">
+            <span class="nav-number">01</span>
+            <span class="nav-label">Inicio</span>
+        </div>
+        <div class="nav-item" data-section="fashion-events">
+            <span class="nav-number">02</span>
+            <span class="nav-label">Eventos de Moda</span>
+        </div>
+        <div class="nav-item" data-section="collections">
+            <span class="nav-number">03</span>
+            <span class="nav-label">Colecciones</span>
+        </div>
+        <div class="nav-item" data-section="concerts">
+            <span class="nav-number">04</span>
+            <span class="nav-label">Conciertos</span>
+        </div>
+        <div class="nav-item" data-section="about">
+            <span class="nav-number">05</span>
+            <span class="nav-label">About Me</span>
+        </div>
+    </nav>
+
+    <!-- Header de la página -->
+    <header class="gallery-page-header">
+        <a href="index.html" class="back-link">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            <span>Volver</span>
+        </a>
+        <h1 class="gallery-page-title">EVENTOS DE MODA</h1>
+    </header>
+
+    <!-- Contenedor de galerías -->
+    <main class="gallery-page-container">
+        <div class="gallery-boxes" id="galleryBoxes">
+            <!-- Las cajas se cargarán dinámicamente -->
+        </div>
+    </main>
+
+    <!-- Modal para vista ampliada -->
+    <div class="modal" id="imageModal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <img class="modal-image" src="#" alt="Imagen ampliada">
+            <div class="modal-info">
+                <h3 class="modal-title"></h3>
+                <p class="modal-category"></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="gallery-script.js"></script>
+    <script>
+        // Datos específicos de eventos de moda
+        const galleryData = {
+            'fashion-events': [
+                {
+                    title: 'TroubleMag 1',
+                    preview: [
+                        'images/fashion-events/Troublemag1/troubleMag1.jpg',
+                        'images/fashion-events/Troublemag1/troubleMag2.jpg',
+                        'images/fashion-events/Troublemag1/troubleMag3.jpg'
+                    ],
+                    images: [
+                            { src: 'images/fashion-events/Troublemag1/troubleMag1.jpg', title: 'TroubleMag 1', category: 'Eventos de Moda' },
+                            { src: 'images/fashion-events/Troublemag1/troubleMag2.jpg', title: 'TroubleMag 1', category: 'Eventos de Moda' },
+                            { src: 'images/fashion-events/Troublemag1/troubleMag3.jpg', title: 'TroubleMag 1', category: 'Eventos de Moda' },
+                            { src: 'images/fashion-events/Troublemag1/troubleMag4.jpg', title: 'TroubleMag 1', category: 'Eventos de Moda' },
+                            { src: 'images/fashion-events/Troublemag1/troubleMag5.jpg', title: 'TroubleMag 1', category: 'Eventos de Moda' },
+                            { src: 'images/fashion-events/Troublemag1/troubleMag6.jpg', title: 'TroubleMag 1', category: 'Eventos de Moda' },
+                            { src: 'images/fashion-events/Troublemag1/troubleMag7.jpg', title: 'TroubleMag 1', category: 'Eventos de Moda' },
+                            { src: 'images/fashion-events/Troublemag1/troubleMag8.jpg', title: 'TroubleMag 1', category: 'Eventos de Moda' },
+                            { src: 'images/fashion-events/Troublemag1/troubleMag9.jpg', title: 'TroubleMag 1', category: 'Eventos de Moda' },
+                            { src: 'images/fashion-events/Troublemag1/troubleMag10.jpg', title: 'TroubleMag 1', category: 'Eventos de Moda' },
+                            { src: 'images/fashion-events/Troublemag1/troubleMag11.jpg', title: 'TroubleMag 1', category: 'Eventos de Moda' },
+                            { src: 'images/fashion-events/Troublemag1/troubleMag12.jpg', title: 'TroubleMag 1', category: 'Eventos de Moda' },
+                            { src: 'images/fashion-events/Troublemag1/troubleMag13.jpg', title: 'TroubleMag 1', category: 'Eventos de Moda' },
+                            { src: 'images/fashion-events/Troublemag1/troubleMag14.jpg', title: 'TroubleMag 1', category: 'Eventos de Moda' },
+                            { src: 'images/fashion-events/Troublemag1/troubleMag15.jpg', title: 'TroubleMag 1', category: 'Eventos de Moda' },
+                            { src: 'images/fashion-events/Troublemag1/troubleMag16.jpg', title: 'TroubleMag 1', category: 'Eventos de Moda' },
+                            { src: 'images/fashion-events/Troublemag1/troubleMag17.jpg', title: 'TroubleMag 1', category: 'Eventos de Moda' },
+                            { src: 'images/fashion-events/Troublemag1/troubleMag18.jpg', title: 'TroubleMag 1', category: 'Eventos de Moda' },
+                            { src: 'images/fashion-events/Troublemag1/troubleMag19.jpg', title: 'TroubleMag 1', category: 'Eventos de Moda' },
+                            { src: 'images/fashion-events/Troublemag1/troubleMag20.jpg', title: 'TroubleMag 1', category: 'Eventos de Moda' },
+                            { src: 'images/fashion-events/Troublemag1/troubleMag21.jpg', title: 'TroubleMag 1', category: 'Eventos de Moda' },
+                            { src: 'images/fashion-events/Troublemag1/troubleMag22.jpg', title: 'TroubleMag 1', category: 'Eventos de Moda' },
+                            { src: 'images/fashion-events/Troublemag1/troubleMag23.jpg', title: 'TroubleMag 1', category: 'Eventos de Moda' },
+                            { src: 'images/fashion-events/Troublemag1/troubleMag24.jpg', title: 'TroubleMag 1', category: 'Eventos de Moda' },
+                            { src: 'images/fashion-events/Troublemag1/troubleMag25.jpg', title: 'TroubleMag 1', category: 'Eventos de Moda' },
+                            { src: 'images/fashion-events/Troublemag1/troubleMag26.jpg', title: 'TroubleMag 1', category: 'Eventos de Moda' },
+                            { src: 'images/fashion-events/Troublemag1/troubleMag27.jpg', title: 'TroubleMag 1', category: 'Eventos de Moda' },
+                            { src: 'images/fashion-events/Troublemag1/troubleMag28.jpg', title: 'TroubleMag 1', category: 'Eventos de Moda' },
+                            { src: 'images/fashion-events/Troublemag1/troubleMag29.jpg', title: 'TroubleMag 1', category: 'Eventos de Moda' },
+                            { src: 'images/fashion-events/Troublemag1/troubleMag30.jpg', title: 'TroubleMag 1', category: 'Eventos de Moda' },
+                            { src: 'images/fashion-events/Troublemag1/troubleMag31.jpg', title: 'TroubleMag 1', category: 'Eventos de Moda' },
+                    ]
+                },
+                {
+                    title: 'TroubleMag 2',
+                    preview: [
+                        'images/fashion-events/Troublemag2/troubleMag32.JPG',
+                        'images/fashion-events/Troublemag2/troubleMag33.JPG',
+                        'images/fashion-events/Troublemag2/troubleMag34.JPG'
+                    ],
+                    images: [
+                            { src: 'images/fashion-events/Troublemag2/troubleMag32.JPG', title: 'TroubleMag 2', category: 'Eventos de Moda' },
+                            { src: 'images/fashion-events/Troublemag2/troubleMag33.JPG', title: 'TroubleMag 2', category: 'Eventos de Moda' },
+                            { src: 'images/fashion-events/Troublemag2/troubleMag34.JPG', title: 'TroubleMag 2', category: 'Eventos de Moda' },
+                            { src: 'images/fashion-events/Troublemag2/troubleMag35.JPG', title: 'TroubleMag 2', category: 'Eventos de Moda' },
+                            { src: 'images/fashion-events/Troublemag2/troubleMag36.JPG', title: 'TroubleMag 2', category: 'Eventos de Moda' },
+                            { src: 'images/fashion-events/Troublemag2/troubleMag37.JPG', title: 'TroubleMag 2', category: 'Eventos de Moda' },
+                            { src: 'images/fashion-events/Troublemag2/troubleMag38.JPG', title: 'TroubleMag 2', category: 'Eventos de Moda' },
+                            { src: 'images/fashion-events/Troublemag2/troubleMag39.JPG', title: 'TroubleMag 2', category: 'Eventos de Moda' },
+                    ]
+                },
+                {
+                    title: 'Limited Andorra x Plex',
+                    preview: [
+                        'images/fashion-events/limited/P1030205.JPG',
+                        'images/fashion-events/limited/P1030212.JPG',
+                        'images/fashion-events/limited/P1030257.JPG'
+                    ],
+                    images: [
+                            { src: 'images/fashion-events/limited/P1030205.JPG', title: 'Limited Andorra x Plex', category: 'Eventos de Moda' },
+                            { src: 'images/fashion-events/limited/P1030212.JPG', title: 'Limited Andorra x Plex', category: 'Eventos de Moda' },
+                            { src: 'images/fashion-events/limited/P1030257.JPG', title: 'Limited Andorra x Plex', category: 'Eventos de Moda' },
+                            { src: 'images/fashion-events/limited/P1030274.JPG', title: 'Limited Andorra x Plex', category: 'Eventos de Moda' },
+                            { src: 'images/fashion-events/limited/P1030280.JPG', title: 'Limited Andorra x Plex', category: 'Eventos de Moda' },
+                            { src: 'images/fashion-events/limited/P1030303.JPG', title: 'Limited Andorra x Plex', category: 'Eventos de Moda' },
+                            { src: 'images/fashion-events/limited/P1030325.JPG', title: 'Limited Andorra x Plex', category: 'Eventos de Moda' },
+                            { src: 'images/fashion-events/limited/P1030429.JPG', title: 'Limited Andorra x Plex', category: 'Eventos de Moda' },
+                            { src: 'images/fashion-events/limited/P1030452.JPG', title: 'Limited Andorra x Plex', category: 'Eventos de Moda' },
+                            { src: 'images/fashion-events/limited/P1030479.JPG', title: 'Limited Andorra x Plex', category: 'Eventos de Moda' },
+                            { src: 'images/fashion-events/limited/P1030527.JPG', title: 'Limited Andorra x Plex', category: 'Eventos de Moda' },
+                            { src: 'images/fashion-events/limited/P1030597.jpg', title: 'Limited Andorra x Plex', category: 'Eventos de Moda' },
+                            { src: 'images/fashion-events/limited/P1030607.JPG', title: 'Limited Andorra x Plex', category: 'Eventos de Moda' },
+                    ]
+                },
+                {
+                    title: 'Limited Plex',
+                    preview: [
+                        'images/fashion-events/Limited_Plex/P1040127.JPG',
+                        'images/fashion-events/Limited_Plex/P1040131.JPG',
+                        'images/fashion-events/Limited_Plex/P1040141.JPG'
+                    ],
+                    images: [
+                            { src: 'images/fashion-events/Limited_Plex/P1040127.JPG', title: 'Limited Plex', category: 'Eventos de Moda' },
+                            { src: 'images/fashion-events/Limited_Plex/P1040131.JPG', title: 'Limited Plex', category: 'Eventos de Moda' },
+                            { src: 'images/fashion-events/Limited_Plex/P1040141.JPG', title: 'Limited Plex', category: 'Eventos de Moda' },
+                            { src: 'images/fashion-events/Limited_Plex/P1040164.JPG', title: 'Limited Plex', category: 'Eventos de Moda' },
+                            { src: 'images/fashion-events/Limited_Plex/P1040184.JPG', title: 'Limited Plex', category: 'Eventos de Moda' },
+                            { src: 'images/fashion-events/Limited_Plex/P1040186.JPG', title: 'Limited Plex', category: 'Eventos de Moda' },
+                            { src: 'images/fashion-events/Limited_Plex/P1040226.JPG', title: 'Limited Plex', category: 'Eventos de Moda' },
+                            { src: 'images/fashion-events/Limited_Plex/P1040344.JPG', title: 'Limited Plex', category: 'Eventos de Moda' },
+                    ]
+                }
+                
+            ]
+        };
+        
+        initGallery('fashion-events');
+    </script>
+</body>
+</html>
+
+

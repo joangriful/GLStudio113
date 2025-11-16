@@ -1,0 +1,40 @@
+INSTRUCCIONES PARA AGREGAR TUS IMÁGENES
+========================================
+
+Para que el portfolio funcione correctamente, agrega tus fotografías en las siguientes carpetas:
+
+📁 EVENTOS DE MODA (images/fashion-events/)
+   - event1.jpg
+   - event2.jpg
+   - event3.jpg
+   - event4.jpg
+   - event5.jpg
+   - event6.jpg
+
+📁 COLECCIONES (images/collections/)
+   - collection1.jpg
+   - collection2.jpg
+   - collection3.jpg
+   - collection4.jpg
+   - collection5.jpg
+   - collection6.jpg
+
+📁 CONCIERTOS (images/concerts/)
+   - concert1.jpg
+   - concert2.jpg
+   - concert3.jpg
+   - concert4.jpg
+   - concert5.jpg
+   - concert6.jpg
+
+📁 ABOUT ME (images/about/)
+   - profile.jpg (imagen de perfil)
+
+NOTAS:
+- Puedes usar formatos .jpg, .jpeg, .png, .webp
+- Si no tienes todas las imágenes, el sistema mostrará placeholders automáticamente
+- Puedes agregar más imágenes editando el archivo script.js y añadiendo más entradas en imageData
+- Las imágenes se optimizarán automáticamente para la web
+- Para la sección About Me, asegúrate de tener una imagen de perfil en images/about/profile.jpg
+
+¡Disfruta de tu portfolio creativo!
