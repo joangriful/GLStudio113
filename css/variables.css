@@ -19,3 +19,18 @@
     --hover-bg: #fafafa;
 }
 
+/* Modo oscuro */
+[data-theme="dark"] {
+    --primary-color: #d4d4d4;
+    --secondary-color: #949494;
+    --accent-color: #ffffff;
+    --light-bg: #0a0a0a;
+    --light-gray: #1a1a1a;
+    --medium-gray: #2a2a2a;
+    --text-dark: #e5e5e5;
+    --text-gray: #b0b0b0;
+    --text-light-gray: #808080;
+    --border-color: #2a2a2a;
+    --hover-bg: #1a1a1a;
+}
+

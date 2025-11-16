@@ -9,6 +9,21 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Inicialización rápida del tema para evitar flash -->
+    <script>
+        (function() {
+            'use strict';
+            const savedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const theme = savedTheme || (prefersDark ? 'dark' : 'light');
+            
+            if (theme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            } else {
+                document.documentElement.removeAttribute('data-theme');
+            }
+        })();
+    </script>
 </head>
 <body>
     <!-- Cursor personalizado -->
@@ -46,6 +61,13 @@
             <span class="nav-number">05</span>
             <span class="nav-label">About Me</span>
         </div>
+        <button class="nav-item theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+            <span class="nav-number">06</span>
+            <span class="nav-label">Modo Oscuro</span>
+            <svg class="theme-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+        </button>
     </nav>
 
     <!-- Header de la página -->
@@ -79,6 +101,7 @@
         </div>
     </div>
 
+    <script src="scripts/theme.js"></script>
     <script src="gallery-script.js"></script>
     <script>
         // Datos específicos de conciertos

@@ -20,6 +20,21 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Inicialización rápida del tema para evitar flash -->
+    <script>
+        (function() {
+            'use strict';
+            const savedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const theme = savedTheme || (prefersDark ? 'dark' : 'light');
+            
+            if (theme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            } else {
+                document.documentElement.removeAttribute('data-theme');
+            }
+        })();
+    </script>
 </head>
 <body>
     <!-- Cursor personalizado -->
@@ -56,6 +71,13 @@
         <span class="nav-number">05</span>
         <span class="nav-label">About Me</span>
     </div>
+    <button class="nav-item theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+        <span class="nav-number">06</span>
+        <span class="nav-label">Modo Oscuro</span>
+        <svg class="theme-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+    </button>
 </nav>
 
     <!-- Hero Section -->
@@ -100,34 +122,55 @@
         <div class="sections-nav-container">
             <h2 class="sections-nav-title">Explorar Secciones</h2>
             <div class="sections-nav-grid">
-                <a href="fashion-events.html" class="section-nav-card">
-                    <div class="section-nav-number">01</div>
-                    <h3 class="section-nav-name">Eventos de Moda</h3>
-                    <p class="section-nav-description">Descubre los eventos de moda más destacados</p>
-                    <svg class="section-nav-arrow" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <line x1="5" y1="12" x2="19" y2="12"></line>
-                        <polyline points="12 5 19 12 12 19"></polyline>
-                    </svg>
+                <a href="fashion-events.html" class="section-nav-card" data-section="fashion">
+                    <div class="section-nav-shapes">
+                        <div class="shape shape-circle"></div>
+                        <div class="shape shape-square"></div>
+                        <div class="shape shape-triangle"></div>
+                    </div>
+                    <div class="section-nav-content">
+                        <div class="section-nav-number">01</div>
+                        <h3 class="section-nav-name">Eventos de Moda</h3>
+                    </div>
+                    <div class="section-nav-lines">
+                        <div class="line line-1"></div>
+                        <div class="line line-2"></div>
+                        <div class="line line-3"></div>
+                    </div>
                 </a>
                 
-                <a href="collections.html" class="section-nav-card">
-                    <div class="section-nav-number">02</div>
-                    <h3 class="section-nav-name">Colecciones</h3>
-                    <p class="section-nav-description">Explora las colecciones fotográficas</p>
-                    <svg class="section-nav-arrow" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <line x1="5" y1="12" x2="19" y2="12"></line>
-                        <polyline points="12 5 19 12 12 19"></polyline>
-                    </svg>
+                <a href="collections.html" class="section-nav-card" data-section="collections">
+                    <div class="section-nav-shapes">
+                        <div class="shape shape-circle"></div>
+                        <div class="shape shape-square"></div>
+                        <div class="shape shape-triangle"></div>
+                    </div>
+                    <div class="section-nav-content">
+                        <div class="section-nav-number">02</div>
+                        <h3 class="section-nav-name">Colecciones</h3>
+                    </div>
+                    <div class="section-nav-lines">
+                        <div class="line line-1"></div>
+                        <div class="line line-2"></div>
+                        <div class="line line-3"></div>
+                    </div>
                 </a>
                 
-                <a href="concerts.html" class="section-nav-card">
-                    <div class="section-nav-number">03</div>
-                    <h3 class="section-nav-name">Conciertos</h3>
-                    <p class="section-nav-description">Vive la energía de los conciertos</p>
-                    <svg class="section-nav-arrow" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <line x1="5" y1="12" x2="19" y2="12"></line>
-                        <polyline points="12 5 19 12 12 19"></polyline>
-                    </svg>
+                <a href="concerts.html" class="section-nav-card" data-section="concerts">
+                    <div class="section-nav-shapes">
+                        <div class="shape shape-circle"></div>
+                        <div class="shape shape-square"></div>
+                        <div class="shape shape-triangle"></div>
+                    </div>
+                    <div class="section-nav-content">
+                        <div class="section-nav-number">03</div>
+                        <h3 class="section-nav-name">Conciertos</h3>
+                    </div>
+                    <div class="section-nav-lines">
+                        <div class="line line-1"></div>
+                        <div class="line line-2"></div>
+                        <div class="line line-3"></div>
+                    </div>
                 </a>
             </div>
         </div>
@@ -269,6 +312,7 @@
            <script src="scripts/modal.js"></script>
            <script src="scripts/cursor.js"></script>
            <script src="scripts/menu.js"></script>
+           <script src="scripts/theme.js"></script>
            <script src="scripts/gallery.js"></script>
            <script src="scripts/filters.js"></script>
            <script src="scripts/navigation.js"></script>

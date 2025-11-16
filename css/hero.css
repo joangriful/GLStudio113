@@ -94,6 +94,9 @@
     opacity: 0.15;
     animation: float 20s infinite ease-in-out;
     border: 2px solid var(--accent-color);
+    background: transparent;
+    z-index: 1;
+    pointer-events: none;
 }
 
 .shape-1 {

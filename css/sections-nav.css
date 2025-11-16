@@ -1,13 +1,20 @@
-/* Navegación a secciones */
+/* Navegación a secciones - Diseño sutil y sofisticado */
 .sections-nav {
     padding: 120px 5%;
     background: var(--light-bg);
+    background-image: 
+        radial-gradient(circle at 1px 1px, var(--border-color) 1px, transparent 0);
+    background-size: 25px 25px;
+    background-position: 0 0;
     position: relative;
+    overflow: hidden;
 }
 
 .sections-nav-container {
     max-width: 1400px;
     margin: 0 auto;
+    position: relative;
+    z-index: 1;
 }
 
 .sections-nav-title {
@@ -15,138 +22,363 @@
     font-weight: 700;
     color: var(--accent-color);
     text-align: center;
-    margin-bottom: 80px;
+    margin-bottom: 100px;
     letter-spacing: -0.02em;
+    position: relative;
 }
 
 .sections-nav-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 40px;
-    max-width: 1200px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    max-width: 1400px;
     margin: 0 auto;
 }
 
 .section-nav-card {
     position: relative;
-    padding: 50px 40px;
+    height: 400px;
     background: var(--light-bg);
-    border: 2px solid var(--border-color);
+    background-image: 
+        radial-gradient(circle at 1px 1px, var(--border-color) 1px, transparent 0);
+    background-size: 25px 25px;
+    background-position: 0 0;
+    border: 1px solid var(--border-color);
     border-radius: 20px;
     text-decoration: none;
     color: var(--text-dark);
-    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
     overflow: hidden;
     display: flex;
-    flex-direction: column;
-    gap: 20px;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
+    isolation: isolate;
 }
 
 .section-nav-card::before {
     content: '';
     position: absolute;
     top: 0;
-    left: -100%;
+    left: 0;
     width: 100%;
     height: 100%;
-    background: var(--accent-color);
-    transition: left 0.4s ease;
+    background-image: 
+        linear-gradient(90deg, transparent 0%, var(--border-color) 1px, transparent 1px),
+        linear-gradient(0deg, transparent 0%, var(--border-color) 1px, transparent 1px);
+    background-size: 30px 30px;
+    background-position: 0 0;
+    opacity: 0.02;
+    transition: opacity 0.8s ease, transform 0.8s ease;
+    transform: translate(0, 0);
     z-index: 0;
+    pointer-events: none;
 }
 
 .section-nav-card:hover::before {
-    left: 0;
+    opacity: 0.06;
+    transform: translate(15px, 15px);
 }
 
+/* Formas geométricas sutiles */
+.section-nav-shapes {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+}
+
+.shape {
+    position: absolute;
+    border: 1px solid var(--border-color);
+    transition: all 1.2s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.shape-circle {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    top: 15%;
+    left: 12%;
+    opacity: 0.2;
+    animation: subtleFloat 12s ease-in-out infinite;
+}
+
+.shape-square {
+    width: 40px;
+    height: 40px;
+    top: 65%;
+    right: 18%;
+    transform: rotate(45deg);
+    opacity: 0.15;
+    animation: subtleRotate 15s linear infinite;
+    border-radius: 4px;
+}
+
+.shape-triangle {
+    width: 0;
+    height: 0;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-bottom: 35px solid var(--border-color);
+    bottom: 20%;
+    left: 25%;
+    opacity: 0.1;
+    animation: subtleDrift 18s ease-in-out infinite;
+}
+
+@keyframes subtleFloat {
+    0%, 100% {
+        transform: translate(0, 0) scale(1);
+    }
+    50% {
+        transform: translate(15px, -15px) scale(1.05);
+    }
+}
+
+@keyframes subtleRotate {
+    0% {
+        transform: rotate(45deg);
+    }
+    100% {
+        transform: rotate(405deg);
+    }
+}
+
+@keyframes subtleDrift {
+    0%, 100% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+    50% {
+        transform: translate(-10px, 10px) rotate(5deg);
+    }
+}
+
+/* Líneas sutiles que aparecen */
+.section-nav-lines {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.line {
+    position: absolute;
+    background: var(--border-color);
+    opacity: 0;
+    transition: all 1s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.line-1 {
+    width: 1px;
+    height: 0;
+    top: 0;
+    left: 25%;
+    transform-origin: top;
+}
+
+.line-2 {
+    width: 0;
+    height: 1px;
+    top: 35%;
+    left: 0;
+    transform-origin: left;
+}
+
+.line-3 {
+    width: 1px;
+    height: 0;
+    bottom: 0;
+    right: 35%;
+    transform-origin: bottom;
+}
+
+/* Efecto de profundidad sutil */
+.section-nav-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.02) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.8s ease;
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* Hover effects sutiles */
 .section-nav-card:hover {
-    transform: translateY(-10px);
+    transform: translateY(-8px);
     border-color: var(--accent-color);
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+    box-shadow: 
+        0 20px 60px rgba(0, 0, 0, 0.08),
+        0 0 0 1px rgba(0, 0, 0, 0.02) inset;
+}
+
+.section-nav-card:hover::after {
+    opacity: 1;
+}
+
+.section-nav-card:hover .shape {
+    opacity: 0.6;
+    border-color: var(--accent-color);
+}
+
+.section-nav-card:hover .shape-circle {
+    transform: translate(20px, -20px) scale(1.2);
+    animation-duration: 6s;
+}
+
+.section-nav-card:hover .shape-square {
+    transform: translate(-15px, 15px) rotate(135deg) scale(1.15);
+    animation-duration: 8s;
+}
+
+.section-nav-card:hover .shape-triangle {
+    transform: translate(10px, -10px) rotate(10deg) scale(1.2);
+    animation-duration: 10s;
+    opacity: 0.3;
+}
+
+.section-nav-card:hover .line-1 {
+    height: 100%;
+    opacity: 0.15;
+    transition-delay: 0.15s;
+}
+
+.section-nav-card:hover .line-2 {
+    width: 100%;
+    opacity: 0.15;
+    transition-delay: 0.3s;
+}
+
+.section-nav-card:hover .line-3 {
+    height: 100%;
+    opacity: 0.15;
+    transition-delay: 0.45s;
+}
+
+/* Contenido con micro-animaciones */
+.section-nav-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.section-nav-card:hover .section-nav-content {
+    transform: translateY(-5px);
 }
 
 .section-nav-number {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 3rem;
+    font-size: clamp(4.5rem, 11vw, 9rem);
     font-weight: 700;
-    color: var(--accent-color);
+    color: var(--text-dark);
+    line-height: 1;
+    transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+    opacity: 0.08;
     position: relative;
-    z-index: 1;
-    transition: color 0.4s ease;
+    letter-spacing: -0.05em;
+    font-variant-numeric: tabular-nums;
 }
 
 .section-nav-card:hover .section-nav-number {
-    color: var(--light-bg);
+    opacity: 0.15;
+    transform: translateY(-10px) scale(1.05);
+    color: var(--accent-color);
 }
 
 .section-nav-name {
-    font-size: 2rem;
+    font-size: clamp(1.6rem, 3.5vw, 2.2rem);
     font-weight: 700;
     color: var(--text-dark);
     margin: 0;
+    letter-spacing: -0.01em;
+    transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
     position: relative;
-    z-index: 1;
-    transition: color 0.4s ease;
-    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    font-weight: 600;
 }
 
 .section-nav-card:hover .section-nav-name {
-    color: var(--light-bg);
+    transform: translateY(-3px);
+    letter-spacing: 0.01em;
+    color: var(--accent-color);
 }
 
-.section-nav-description {
-    font-size: 1rem;
-    color: var(--text-gray);
-    line-height: 1.6;
-    margin: 0;
-    position: relative;
-    z-index: 1;
-    transition: color 0.4s ease;
-    font-weight: 300;
-}
-
-.section-nav-card:hover .section-nav-description {
-    color: rgba(255, 255, 255, 0.9);
-}
-
-.section-nav-arrow {
-    position: absolute;
-    bottom: 30px;
-    right: 30px;
-    stroke: var(--accent-color);
-    transition: all 0.4s ease;
-    position: relative;
-    z-index: 1;
-    align-self: flex-end;
-    margin-top: auto;
-}
-
-.section-nav-card:hover .section-nav-arrow {
-    stroke: var(--light-bg);
-    transform: translateX(5px);
+/* Efecto de borde sutil en hover */
+.section-nav-card:hover {
+    background-image: 
+        radial-gradient(circle at 1px 1px, var(--accent-color) 1px, transparent 0);
+    background-size: 25px 25px;
 }
 
 /* Responsive */
+@media (max-width: 1024px) {
+    .sections-nav-grid {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+
+    .section-nav-card {
+        height: 320px;
+    }
+}
+
 @media (max-width: 768px) {
     .sections-nav {
         padding: 80px 5%;
     }
 
     .sections-nav-title {
-        margin-bottom: 50px;
+        margin-bottom: 60px;
+        font-size: clamp(2rem, 6vw, 4rem);
     }
 
     .sections-nav-grid {
-        grid-template-columns: 1fr;
-        gap: 30px;
+        gap: 20px;
     }
 
     .section-nav-card {
-        padding: 40px 30px;
+        height: 280px;
+    }
+
+    .section-nav-number {
+        font-size: clamp(3.5rem, 9vw, 6rem);
     }
 
     .section-nav-name {
-        font-size: 1.5rem;
+        font-size: clamp(1.4rem, 4.5vw, 1.8rem);
+    }
+
+    .shape-circle {
+        width: 40px;
+        height: 40px;
+    }
+
+    .shape-square {
+        width: 30px;
+        height: 30px;
+    }
+
+    .shape-triangle {
+        border-left: 15px solid transparent;
+        border-right: 15px solid transparent;
+        border-bottom: 25px solid var(--border-color);
     }
 }
-

@@ -81,6 +81,7 @@
     visibility: hidden;
     pointer-events: none;
     transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    justify-content: flex-start;
 }
 
 .floating-nav.active {
@@ -156,5 +157,49 @@
 
 .nav-item:hover .nav-label {
     color: var(--light-bg);
+}
+
+/* Botón de tema */
+.theme-toggle {
+    margin-top: 20px;
+    border: none;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+}
+
+.theme-toggle:hover {
+    background: rgba(255, 255, 255, 0.95);
+}
+
+.theme-icon {
+    margin-left: auto;
+    stroke: var(--text-dark);
+    transition: all 0.3s ease;
+}
+
+.theme-toggle:hover .theme-icon {
+    stroke: var(--light-bg);
+    transform: rotate(20deg);
+}
+
+[data-theme="dark"] .theme-toggle {
+    background: rgba(26, 26, 26, 0.9);
+}
+
+[data-theme="dark"] .nav-item {
+    background: rgba(26, 26, 26, 0.9);
+}
+
+[data-theme="dark"] .menu-toggle {
+    background: var(--light-bg);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .menu-toggle:hover {
+    background: var(--hover-bg);
 }
 
