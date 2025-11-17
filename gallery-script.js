@@ -100,7 +100,7 @@ function encodeImagePath(path) {
 }
 
 // Función para crear preview de imágenes
-function createPreviewItem(imageSrc, title) {
+function createPreviewItem(imageSrc, title, allGalleryImages = []) {
     const item = document.createElement('div');
     item.className = 'preview-item';
     
@@ -120,7 +120,13 @@ function createPreviewItem(imageSrc, title) {
     item.appendChild(img);
     item.addEventListener('click', (e) => {
         e.stopPropagation();
-        openModal({ src: imageSrc, title: title, category: '' });
+        const currentImage = { src: imageSrc, title: title, category: '' };
+        // Si hay imágenes de la galería completa, pasarlas todas para poder navegar
+        if (allGalleryImages.length > 0) {
+            openModal(currentImage, allGalleryImages);
+        } else {
+            openModal(currentImage);
+        }
     });
     
     return item;
@@ -204,8 +210,10 @@ function createGalleryBox(galleryData, index) {
     
     // Limitar preview a 3 imágenes
     const previewImages = galleryData.preview.slice(0, 3);
+    // Pasar todas las imágenes de la galería para poder navegar entre ellas
+    const allGalleryImages = galleryData.images || [];
     previewImages.forEach((imgSrc, i) => {
-        const previewItem = createPreviewItem(imgSrc, `${galleryData.title} - Preview ${i + 1}`);
+        const previewItem = createPreviewItem(imgSrc, `${galleryData.title} - Preview ${i + 1}`, allGalleryImages);
         preview.appendChild(previewItem);
     });
     
@@ -576,6 +584,15 @@ function openModal(image, galleryImages = []) {
     // Crear controles si no existen
     createModalControls();
     
+    // Ocultar cursor personalizado cuando el modal esté abierto
+    const customCursor = document.querySelector('.custom-cursor');
+    const cursorFollower = document.querySelector('.cursor-follower');
+    if (customCursor) customCursor.style.display = 'none';
+    if (cursorFollower) cursorFollower.style.display = 'none';
+    
+    // Mostrar cursor normal del body
+    document.body.style.cursor = 'default';
+    
     // Mostrar modal
     modal.classList.add('active');
     document.body.style.overflow = 'hidden';
@@ -608,6 +625,13 @@ function closeModal() {
         document.body.style.overflow = 'auto';
         currentGallery = [];
         currentImageIndex = 0;
+        
+        // Mostrar cursor personalizado nuevamente cuando el modal se cierra
+        const customCursor = document.querySelector('.custom-cursor');
+        const cursorFollower = document.querySelector('.cursor-follower');
+        if (customCursor) customCursor.style.display = '';
+        if (cursorFollower) cursorFollower.style.display = '';
+        document.body.style.cursor = 'none';
     }, 300);
 }
 

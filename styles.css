@@ -798,12 +798,25 @@ body {
     background: rgba(255, 255, 255, 0.98);
     backdrop-filter: blur(10px);
     animation: fadeIn 0.3s ease;
+    cursor: default !important; /* Mostrar cursor normal dentro del modal */
 }
 
 .modal.active {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+/* Ocultar cursor personalizado dentro del modal - se maneja en JS */
+
+/* Mostrar cursor normal dentro del modal y sus elementos */
+.modal * {
+    cursor: default !important;
+}
+
+.modal button,
+.modal .modal-close {
+    cursor: pointer !important;
 }
 
 .modal-content {
@@ -828,7 +841,7 @@ body {
     font-size: 40px;
     font-weight: 300;
     color: var(--text-dark);
-    cursor: pointer;
+    cursor: pointer !important;
     transition: transform 0.3s ease, color 0.3s ease;
     line-height: 1;
 }
@@ -856,6 +869,108 @@ body {
     text-transform: uppercase;
     letter-spacing: 2px;
     font-weight: 400;
+}
+
+/* Botones de navegación */
+.modal-nav-prev,
+.modal-nav-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 50px;
+    height: 50px;
+    background: rgba(255, 255, 255, 0.9) !important;
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border-color) !important;
+    border-radius: 50%;
+    cursor: pointer !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 10001;
+    color: var(--text-dark) !important;
+    padding: 0;
+    outline: none;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+.modal-nav-prev {
+    left: 20px;
+}
+
+.modal-nav-next {
+    right: 20px;
+}
+
+.modal-nav-prev:hover,
+.modal-nav-next:hover {
+    background: rgba(255, 255, 255, 1);
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.modal-nav-prev:active,
+.modal-nav-next:active {
+    transform: translateY(-50%) scale(0.95);
+}
+
+.modal-nav-prev svg,
+.modal-nav-next svg {
+    width: 24px;
+    height: 24px;
+    stroke: currentColor !important;
+    fill: none;
+    transition: stroke 0.3s ease;
+}
+
+/* Contador de imágenes */
+.modal-counter {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    color: var(--text-gray);
+    font-weight: 500;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    z-index: 10;
+}
+
+/* Modo oscuro */
+[data-theme="dark"] .modal {
+    background: rgba(10, 10, 10, 0.98);
+}
+
+[data-theme="dark"] .modal-nav-prev,
+[data-theme="dark"] .modal-nav-next {
+    background: rgba(26, 26, 26, 0.9);
+    border-color: var(--border-color);
+    color: var(--text-dark);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="dark"] .modal-nav-prev:hover,
+[data-theme="dark"] .modal-nav-next:hover {
+    background: rgba(40, 40, 40, 0.95);
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+}
+
+[data-theme="dark"] .modal-counter {
+    background: rgba(26, 26, 26, 0.9);
+    border-color: var(--border-color);
+    color: var(--text-gray);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
 }
 
 /* Footer */

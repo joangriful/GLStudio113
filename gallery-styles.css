@@ -427,7 +427,14 @@
     }
 
     .gallery-preview {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+        padding: 15px;
+    }
+
+    .preview-item {
+        aspect-ratio: 1/1;
+        border-radius: 8px;
     }
 
     .expanded-item {
