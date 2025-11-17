@@ -3,6 +3,10 @@
     padding: 120px 5%;
     min-height: 100vh;
     background: var(--light-bg);
+    background-image: 
+        radial-gradient(circle at 1px 1px, var(--border-color) 1px, transparent 0);
+    background-size: 25px 25px;
+    background-position: 0 0;
 }
 
 .gallery-header {

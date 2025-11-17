@@ -21,8 +21,21 @@
         padding: 8px 15px;
     }
 
-    .nav-label {
+    /* Ocultar número y label del botón de tema, solo mostrar icono */
+    .theme-toggle .nav-number,
+    .theme-toggle .nav-label {
         display: none;
+    }
+
+    .theme-toggle {
+        width: auto;
+        min-width: 45px;
+        justify-content: center;
+        padding: 8px 12px;
+    }
+
+    .theme-icon {
+        margin-left: 0;
     }
 
     .gallery-grid {
