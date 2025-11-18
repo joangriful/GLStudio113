@@ -2,7 +2,12 @@
 
 // Función helper para codificar URLs correctamente (case-sensitive y caracteres especiales)
 // Esta función codifica solo los caracteres especiales necesarios para GitHub Pages
+// Si existe ImageFormats, usar su función, sino usar la local
 function encodeImagePath(path) {
+    if (window.ImageFormats && window.ImageFormats.encodeImagePath) {
+        return window.ImageFormats.encodeImagePath(path);
+    }
+    
     // Dividir la ruta en partes (directorios y archivo)
     const parts = path.split('/');
     // Codificar cada parte individualmente para mantener las barras
@@ -19,39 +24,55 @@ function createGalleryItem(image, isMainGallery = false) {
     item.className = isMainGallery ? 'gallery-item' : 'photo-item';
     item.dataset.category = image.category.toLowerCase();
     
-    const img = document.createElement('img');
-    // Codificar la ruta de la imagen para GitHub Pages (case-sensitive y caracteres especiales)
-    img.src = encodeImagePath(image.src);
-    img.alt = image.title;
-    img.loading = 'lazy';
-    
-    // Manejo de error de imagen - intenta diferentes formatos y mayúsculas/minúsculas
-    const errorState = { attempts: 0 };
-    const originalSrc = image.src;
-    img.onerror = function() {
-        errorState.attempts++;
-        const baseName = originalSrc.replace(/\.(jpg|jpeg|png|webp|JPG|JPEG|PNG|WEBP)$/i, '');
-        
-        // Intentar primero con la extensión opuesta (mayúscula/minúscula)
-        if (errorState.attempts === 1) {
-            const currentExt = originalSrc.match(/\.(jpg|jpeg|png|webp|JPG|JPEG|PNG|WEBP)$/i);
-            if (currentExt) {
-                const ext = currentExt[0];
-                const oppositeExt = ext === ext.toUpperCase() ? ext.toLowerCase() : ext.toUpperCase();
-                this.src = baseName + oppositeExt;
-                return;
+    // Usar formatos modernos si están disponibles
+    let img;
+    if (window.ImageFormats && window.ImageFormats.createOptimizedImg) {
+        img = window.ImageFormats.createOptimizedImg(
+            image.src,
+            image.title,
+            {
+                loading: 'lazy',
+                onError: function() {
+                    // Fallback a placeholder si todos los formatos fallan
+                    this.src = `https://via.placeholder.com/800x600/f5f5f5/666666?text=${encodeURIComponent(image.title)}`;
+                }
             }
-        }
+        );
+    } else {
+        // Fallback si ImageFormats no está disponible
+        img = document.createElement('img');
+        img.src = encodeImagePath(image.src);
+        img.alt = image.title;
+        img.loading = 'lazy';
         
-        // Si eso falla, intentar otros formatos
-        const formats = ['.JPG', '.jpg', '.JPEG', '.jpeg', '.PNG', '.png', '.WEBP', '.webp'];
-        if (errorState.attempts <= formats.length) {
-            this.src = baseName + formats[errorState.attempts - 1];
-        } else {
-            // Si ningún formato funciona, usar placeholder
-            this.src = `https://via.placeholder.com/800x600/f5f5f5/666666?text=${encodeURIComponent(image.title)}`;
-        }
-    };
+        // Manejo de error de imagen - intenta diferentes formatos y mayúsculas/minúsculas
+        const errorState = { attempts: 0 };
+        const originalSrc = image.src;
+        img.onerror = function() {
+            errorState.attempts++;
+            const baseName = originalSrc.replace(/\.(jpg|jpeg|png|webp|JPG|JPEG|PNG|WEBP)$/i, '');
+            
+            // Intentar primero con la extensión opuesta (mayúscula/minúscula)
+            if (errorState.attempts === 1) {
+                const currentExt = originalSrc.match(/\.(jpg|jpeg|png|webp|JPG|JPEG|PNG|WEBP)$/i);
+                if (currentExt) {
+                    const ext = currentExt[0];
+                    const oppositeExt = ext === ext.toUpperCase() ? ext.toLowerCase() : ext.toUpperCase();
+                    this.src = baseName + oppositeExt;
+                    return;
+                }
+            }
+            
+            // Si eso falla, intentar otros formatos
+            const formats = ['.JPG', '.jpg', '.JPEG', '.jpeg', '.PNG', '.png', '.WEBP', '.webp'];
+            if (errorState.attempts <= formats.length) {
+                this.src = baseName + formats[errorState.attempts - 1];
+            } else {
+                // Si ningún formato funciona, usar placeholder
+                this.src = `https://via.placeholder.com/800x600/f5f5f5/666666?text=${encodeURIComponent(image.title)}`;
+            }
+        };
+    }
     
     const info = document.createElement('div');
     info.className = isMainGallery ? 'gallery-item-info' : '';

@@ -76,7 +76,12 @@ if (menuToggle && floatingNav) {
 
 // Función helper para codificar URLs correctamente (case-sensitive y caracteres especiales)
 // Esta función maneja la codificación para GitHub Pages
+// Si existe ImageFormats, usar su función, sino usar la local
 function encodeImagePath(path) {
+    if (window.ImageFormats && window.ImageFormats.encodeImagePath) {
+        return window.ImageFormats.encodeImagePath(path);
+    }
+    
     // Para GitHub Pages, necesitamos mantener la case-sensitivity exacta
     // Los paréntesis en nombres de archivo pueden funcionar sin codificar en algunos casos
     // pero es más seguro codificarlos para evitar problemas
@@ -104,20 +109,35 @@ function createPreviewItem(imageSrc, title, allGalleryImages = []) {
     const item = document.createElement('div');
     item.className = 'preview-item';
     
-    const img = document.createElement('img');
-    // Codificar la ruta de la imagen para GitHub Pages
-    const encodedSrc = encodeImagePath(imageSrc);
-    img.src = encodedSrc;
-    img.alt = title;
-    img.loading = 'lazy';
+    // Usar formatos modernos si están disponibles
+    let imgElement;
+    if (window.ImageFormats && window.ImageFormats.createOptimizedImg) {
+        imgElement = window.ImageFormats.createOptimizedImg(
+            imageSrc,
+            title,
+            {
+                loading: 'lazy',
+                onError: function() {
+                    console.error('Error al cargar imagen:', imageSrc);
+                    this.style.display = 'none';
+                }
+            }
+        );
+    } else {
+        // Fallback si ImageFormats no está disponible
+        imgElement = document.createElement('img');
+        const encodedSrc = encodeImagePath(imageSrc);
+        imgElement.src = encodedSrc;
+        imgElement.alt = title;
+        imgElement.loading = 'lazy';
+        
+        imgElement.onerror = function() {
+            console.error('Error al cargar imagen:', encodedSrc);
+            this.style.display = 'none';
+        };
+    }
     
-    img.onerror = function() {
-        console.error('Error al cargar imagen:', encodedSrc);
-        // Ocultar imagen si falla
-        this.style.display = 'none';
-    };
-    
-    item.appendChild(img);
+    item.appendChild(imgElement);
     item.addEventListener('click', (e) => {
         e.stopPropagation();
         const currentImage = { src: imageSrc, title: title, category: '' };
@@ -137,25 +157,40 @@ function createExpandedItem(image) {
     const item = document.createElement('div');
     item.className = 'expanded-item';
     
-    const img = document.createElement('img');
-    // Codificar la ruta de la imagen para GitHub Pages
-    const encodedSrc = encodeImagePath(image.src);
-    img.src = encodedSrc;
-    img.alt = image.title;
-    img.loading = 'lazy';
-    
-    img.onerror = function() {
-        console.error('Error al cargar imagen:', encodedSrc);
-        // Ocultar imagen si falla
-        this.style.display = 'none';
-    };
+    // Usar formatos modernos si están disponibles
+    let imgElement;
+    if (window.ImageFormats && window.ImageFormats.createOptimizedImg) {
+        imgElement = window.ImageFormats.createOptimizedImg(
+            image.src,
+            image.title,
+            {
+                loading: 'lazy',
+                onError: function() {
+                    console.error('Error al cargar imagen:', image.src);
+                    this.style.display = 'none';
+                }
+            }
+        );
+    } else {
+        // Fallback si ImageFormats no está disponible
+        imgElement = document.createElement('img');
+        const encodedSrc = encodeImagePath(image.src);
+        imgElement.src = encodedSrc;
+        imgElement.alt = image.title;
+        imgElement.loading = 'lazy';
+        
+        imgElement.onerror = function() {
+            console.error('Error al cargar imagen:', encodedSrc);
+            this.style.display = 'none';
+        };
+    }
     
     // Título de la imagen
     const titleDiv = document.createElement('div');
     titleDiv.className = 'expanded-item-title';
     titleDiv.textContent = image.title || '';
     
-    item.appendChild(img);
+    item.appendChild(imgElement);
     item.appendChild(titleDiv);
     
     item.addEventListener('click', (e) => {
@@ -520,21 +555,53 @@ function updateModalImage() {
     
     const image = currentGallery[currentImageIndex];
     
-    // Pre-cargar la imagen para una transición más suave
+    // Pre-cargar la imagen para una transición más suave usando formatos modernos
     const img = new Image();
-    img.onload = () => {
-        // Codificar la ruta de la imagen para GitHub Pages
-        modalImage.src = encodeImagePath(image.src);
-        modalImage.alt = image.title || '';
-        
-        // Restablecer transformación
-        if (modalImage) {
-            modalImage.style.opacity = '1';
-            modalImage.style.transform = 'translateX(0) scale(1)';
-        }
-    };
-    // Codificar la ruta antes de cargar
-    img.src = encodeImagePath(image.src);
+    
+    // Determinar mejor formato disponible
+    if (window.ImageFormats) {
+        window.ImageFormats.initFormatDetection().then(([webpSupported, avifSupported]) => {
+            const sources = window.ImageFormats.generateImageSources(image.src);
+            let bestSrc = image.src;
+            
+            if (avifSupported) {
+                bestSrc = sources.avif;
+            } else if (webpSupported) {
+                bestSrc = sources.webp;
+            }
+            
+            img.onload = () => {
+                modalImage.src = encodeImagePath(bestSrc);
+                modalImage.alt = image.title || '';
+                
+                // Restablecer transformación
+                if (modalImage) {
+                    modalImage.style.opacity = '1';
+                    modalImage.style.transform = 'translateX(0) scale(1)';
+                }
+            };
+            
+            img.onerror = () => {
+                // Fallback a formato original si el moderno falla
+                const fallbackSrc = webpSupported && bestSrc === sources.avif ? sources.webp : sources.original;
+                img.src = encodeImagePath(fallbackSrc);
+            };
+            
+            img.src = encodeImagePath(bestSrc);
+        });
+    } else {
+        // Fallback si ImageFormats no está disponible
+        img.onload = () => {
+            modalImage.src = encodeImagePath(image.src);
+            modalImage.alt = image.title || '';
+            
+            if (modalImage) {
+                modalImage.style.opacity = '1';
+                modalImage.style.transform = 'translateX(0) scale(1)';
+            }
+        };
+        img.src = encodeImagePath(image.src);
+    }
     
     if (modalTitle) {
         modalTitle.textContent = image.title || '';
