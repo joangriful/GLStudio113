@@ -1,0 +1,48 @@
+/* Estilos para página de Concerts - comparte con Collections */
+.page-container {
+  min-height: 100vh;
+  padding-top: 100px;
+}
+
+.section-page {
+  padding: 0 5% 100px;
+  background: var(--light-bg);
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 80px;
+}
+
+.section-page-title {
+  font-size: clamp(3rem, 8vw, 6rem);
+  font-weight: 700;
+  color: var(--accent-color);
+  letter-spacing: -0.02em;
+  line-height: 1;
+  margin-bottom: 20px;
+}
+
+.section-page-description {
+  font-size: 1.1rem;
+  color: var(--text-gray);
+  font-weight: 300;
+  letter-spacing: 0.02em;
+}
+
+.galleries-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Responsive */
+@media (max-width: 968px) {
+  .galleries-container {
+    gap: 30px;
+  }
+}
+
+
