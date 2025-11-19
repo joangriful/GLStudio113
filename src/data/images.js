@@ -3,7 +3,7 @@ export const imageData = {
   'fashion-events': [
     { src: 'images/fashion-events/Troublemag1/troubleMag1.jpg', title: 'TroubleMag 1', category: 'Eventos de Moda' },
     { src: 'images/fashion-events/Troublemag1/troubleMag2.jpg', title: 'TroubleMag 1', category: 'Eventos de Moda' },
-    { src: 'images/fashion-events/Troublemag1/troubleMag3.jpg', title: 'TroubleMag 1', category: 'Eventos de Moda' },
+    { src: 'images/fashion-events/Troublemag1/troubleMag20.jpg', title: 'TroubleMag 1', category: 'Eventos de Moda' },
     { src: 'images/fashion-events/Troublemag1/troubleMag4.jpg', title: 'TroubleMag 1', category: 'Eventos de Moda' },
     { src: 'images/fashion-events/Troublemag1/troubleMag5.jpg', title: 'TroubleMag 1', category: 'Eventos de Moda' },
     { src: 'images/fashion-events/Troublemag1/troubleMag6.jpg', title: 'TroubleMag 1', category: 'Eventos de Moda' },

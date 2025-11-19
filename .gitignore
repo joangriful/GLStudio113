@@ -1,14 +1,14 @@
 # Dependencies
-node_modules
-/.pnp
+node_modules/
+.pnp
 .pnp.js
 
 # Testing
-/coverage
+coverage/
 
 # Production
-/dist
-/build
+dist/
+build/
 
 # Misc
 .DS_Store
@@ -17,14 +17,31 @@ node_modules
 .env.test.local
 .env.production.local
 
+# Logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
 
-# IDE
-.vscode
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
 .idea
-*.swp
-*.swo
-*~
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Legacy files (ya eliminados)
+# collections.html
+# concerts.html
+# fashion-events.html
+# gallery-script.js
+# gallery-styles.css
+# styles.css
+# css/
+# scripts/
+# images/ (si era duplicado de public/images/)
 
