@@ -1,0 +1,3 @@
+# Este archivo evita que GitHub Pages procese el sitio con Jekyll
+# Necesario si tienes archivos que empiezan con guión bajo o si quieres evitar procesamiento Jekyll
+
