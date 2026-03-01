@@ -3,17 +3,14 @@ import { useImageFormats } from '../hooks/useImageFormats'
 import './Modal.css'
 
 export default function Modal({ isOpen, currentImage, currentIndex, totalImages, onClose, onNavigate }) {
-  const { getBestFormat, generateImageSources } = useImageFormats()
-  const [imageSrc, setImageSrc] = useState('')
+  const { generateImageSources } = useImageFormats()
   const [touchStart, setTouchStart] = useState({ x: 0, y: 0 })
+  const [isLoaded, setIsLoaded] = useState(false)
 
+  // Reset isLoaded when image changes
   useEffect(() => {
-    if (currentImage) {
-      const sources = generateImageSources(currentImage.src)
-      const bestSrc = getBestFormat(currentImage.src)
-      setImageSrc(bestSrc)
-    }
-  }, [currentImage, getBestFormat, generateImageSources])
+    setIsLoaded(false)
+  }, [currentImage])
 
   const handleBackdropClick = (e) => {
     if (e.target === e.currentTarget) {
@@ -48,8 +45,14 @@ export default function Modal({ isOpen, currentImage, currentIndex, totalImages,
 
   if (!isOpen || !currentImage) return null
 
+  const sources = generateImageSources(currentImage.src)
+  const normalizedOriginal = normalizeImagePath(sources.original)
+  const normalizedWebp = normalizeImagePath(sources.webp)
+  const normalizedAvif = normalizeImagePath(sources.avif)
+  const normalizedThumb = normalizeImagePath(sources.thumb)
+
   return (
-    <div 
+    <div
       className={`modal ${isOpen ? 'active' : ''}`}
       onClick={handleBackdropClick}
       onTouchStart={handleTouchStart}
@@ -57,10 +60,10 @@ export default function Modal({ isOpen, currentImage, currentIndex, totalImages,
     >
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         <span className="modal-close" onClick={onClose}>&times;</span>
-        
+
         {totalImages > 1 && (
           <>
-            <button 
+            <button
               className="modal-nav-prev"
               onClick={() => onNavigate(-1)}
               aria-label="Imagen anterior"
@@ -69,7 +72,7 @@ export default function Modal({ isOpen, currentImage, currentIndex, totalImages,
                 <polyline points="15 18 9 12 15 6"></polyline>
               </svg>
             </button>
-            <button 
+            <button
               className="modal-nav-next"
               onClick={() => onNavigate(1)}
               aria-label="Imagen siguiente"
@@ -84,15 +87,25 @@ export default function Modal({ isOpen, currentImage, currentIndex, totalImages,
           </>
         )}
 
-        <img 
-          className="modal-image" 
-          src={imageSrc || currentImage.src} 
-          alt={currentImage.title || 'Imagen ampliada'}
-          onError={() => {
-            const sources = generateImageSources(currentImage.src)
-            setImageSrc(sources.original)
-          }}
-        />
+        <div className={`modal-image-container ${isLoaded ? 'loaded' : 'loading'}`}>
+          <img
+            src={normalizedThumb}
+            alt=""
+            className="modal-image-thumbnail"
+            aria-hidden="true"
+          />
+          <picture>
+            <source srcSet={normalizedAvif} type="image/avif" />
+            <source srcSet={normalizedWebp} type="image/webp" />
+            <img
+              className={`modal-image ${isLoaded ? 'visible' : 'hidden'}`}
+              src={normalizedOriginal}
+              alt={currentImage.title || 'Imagen ampliada'}
+              onLoad={() => setIsLoaded(true)}
+            />
+          </picture>
+        </div>
+
         <div className="modal-info">
           <h3 className="modal-title">{currentImage.title}</h3>
           <p className="modal-category">{currentImage.category}</p>
@@ -100,5 +113,15 @@ export default function Modal({ isOpen, currentImage, currentIndex, totalImages,
       </div>
     </div>
   )
+}
+
+// Helper function duplicate (or import it if moved to utils)
+function normalizeImagePath(path) {
+  if (path.startsWith('/')) return path
+  if (path.startsWith('./') || path.startsWith('../')) return path
+  const baseUrl = import.meta.env.BASE_URL
+  const cleanPath = path.startsWith('/') ? path.slice(1) : path
+  const cleanBase = baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`
+  return `${cleanBase}${cleanPath}`
 }
 

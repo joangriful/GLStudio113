@@ -30,30 +30,40 @@ except ImportError:
     print("AVIF no disponible. Instala: pip install pillow-avif-plugin")
     print("   Continuando solo con WebP...\n")
 
-def convert_to_webp(input_path, output_path, quality=85):
-    """Convierte una imagen a WebP"""
+def convert_to_webp(input_path, output_path, quality=85, max_width=None, method=6):
+    """Convierte una imagen a WebP con opción de redimensionar"""
     try:
         with Image.open(input_path) as img:
-            # Convertir a RGB si es necesario (WebP no soporta RGBA directamente en algunos casos)
+            # Redimensionar si se especifica
+            if max_width and img.width > max_width:
+                ratio = max_width / float(img.width)
+                new_height = int(float(img.height) * float(ratio))
+                img = img.resize((max_width, new_height), Image.Resampling.LANCZOS)
+            
+            # Convertir a RGB si es necesario
             if img.mode in ('RGBA', 'LA', 'P'):
-                # Mantener transparencia
-                img.save(output_path, 'WEBP', quality=quality, method=6)
+                img.save(output_path, 'WEBP', quality=quality, method=method)
             else:
                 img = img.convert('RGB')
-                img.save(output_path, 'WEBP', quality=quality, method=6)
+                img.save(output_path, 'WEBP', quality=quality, method=method)
         return True
     except Exception as e:
         print(f"[ERROR] Error convirtiendo {input_path} a WebP: {e}")
         return False
 
-def convert_to_avif(input_path, output_path, quality=50):
-    """Convierte una imagen a AVIF"""
+def convert_to_avif(input_path, output_path, quality=50, max_width=None):
+    """Convierte una imagen a AVIF con opción de redimensionar"""
     if not AVIF_SUPPORT:
         return False
     
     try:
         with Image.open(input_path) as img:
-            # AVIF soporta transparencia nativamente
+            # Redimensionar si se especifica
+            if max_width and img.width > max_width:
+                ratio = max_width / float(img.width)
+                new_height = int(float(img.height) * float(ratio))
+                img = img.resize((max_width, new_height), Image.Resampling.LANCZOS)
+                
             img.save(output_path, 'AVIF', quality=quality)
         return True
     except Exception as e:
@@ -93,15 +103,27 @@ def main():
         help='Calidad AVIF (0-100, default: 50)'
     )
     parser.add_argument(
-        '--delete-originals',
+        '--max-width',
+        type=int,
+        default=1920,
+        help='Ancho máximo de las imágenes optimizadas (default: 1920)'
+    )
+    parser.add_argument(
+        '--thumb-width',
+        type=int,
+        default=32,
+        help='Ancho de las miniaturas para blur-up (default: 32)'
+    )
+    parser.add_argument(
+        '--force',
         action='store_true',
-        help='Eliminar archivos originales después de convertir (NO RECOMENDADO)'
+        help='Forzar recreación de imágenes optimizadas aunque ya existan'
     )
     parser.add_argument(
         '--directory',
         type=str,
-        default='images',
-        help='Directorio donde están las imágenes (default: images)'
+        default='public/images',
+        help='Directorio donde están las imágenes (default: public/images)'
     )
     
     args = parser.parse_args()
@@ -149,14 +171,20 @@ def main():
         base_name = os.path.splitext(image_path)[0]
         webp_path = f"{base_name}.webp"
         avif_path = f"{base_name}.avif"
+        thumb_webp_path = f"{base_name}_thumb.webp"
+        
+        # Generar miniatura primero (siempre en WebP por compatibilidad)
+        if args.force or not os.path.exists(thumb_webp_path):
+            if convert_to_webp(image_path, thumb_webp_path, quality=20, max_width=args.thumb_width, method=0):
+                print(f"  [OK] Thumbnail creado: {thumb_webp_path}")
         
         # Convertir a WebP
-        if os.path.exists(webp_path):
+        if not args.force and os.path.exists(webp_path):
             print(f"  [SKIP] WebP ya existe: {webp_path}")
             skipped_webp += 1
             total_webp_size += get_file_size_mb(webp_path)
         else:
-            if convert_to_webp(image_path, webp_path, args.quality):
+            if convert_to_webp(image_path, webp_path, args.quality, max_width=args.max_width):
                 webp_size = get_file_size_mb(webp_path)
                 total_webp_size += webp_size
                 reduction = ((original_size - webp_size) / original_size) * 100
@@ -167,12 +195,12 @@ def main():
         
         # Convertir a AVIF
         if AVIF_SUPPORT:
-            if os.path.exists(avif_path):
+            if not args.force and os.path.exists(avif_path):
                 print(f"  [SKIP] AVIF ya existe: {avif_path}")
                 skipped_avif += 1
                 total_avif_size += get_file_size_mb(avif_path)
             else:
-                if convert_to_avif(image_path, avif_path, args.avif_quality):
+                if convert_to_avif(image_path, avif_path, args.avif_quality, max_width=args.max_width):
                     avif_size = get_file_size_mb(avif_path)
                     total_avif_size += avif_size
                     reduction = ((original_size - avif_size) / original_size) * 100

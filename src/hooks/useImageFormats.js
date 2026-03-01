@@ -41,7 +41,8 @@ export function generateImageSources(originalPath) {
   return {
     original: originalPath,
     webp: `${baseName}.webp`,
-    avif: `${baseName}.avif`
+    avif: `${baseName}.avif`,
+    thumb: `${baseName}_thumb.webp`
   }
 }
 
