@@ -1,15 +1,31 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useImageFormats } from '../hooks/useImageFormats'
 import './Modal.css'
+
+// Función helper para normalizar las rutas de imágenes con el base URL de Vite
+function normalizeImagePath(path) {
+  if (!path) return ''
+  if (path.startsWith('/')) return path
+  if (path.startsWith('./') || path.startsWith('../')) return path
+  const baseUrl = import.meta.env.BASE_URL
+  const cleanPath = path.startsWith('/') ? path.slice(1) : path
+  const cleanBase = baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`
+  return `${cleanBase}${cleanPath}`
+}
 
 export default function Modal({ isOpen, currentImage, currentIndex, totalImages, onClose, onNavigate }) {
   const { generateImageSources } = useImageFormats()
   const [touchStart, setTouchStart] = useState({ x: 0, y: 0 })
   const [isLoaded, setIsLoaded] = useState(false)
+  const imgRef = useRef(null)
 
-  // Reset isLoaded when image changes
+  // Reset isLoaded cuando cambia la imagen
   useEffect(() => {
     setIsLoaded(false)
+    // Verificar si la nueva imagen ya está en caché
+    if (imgRef.current && imgRef.current.complete) {
+      setIsLoaded(true)
+    }
   }, [currentImage])
 
   const handleBackdropClick = (e) => {
@@ -98,7 +114,9 @@ export default function Modal({ isOpen, currentImage, currentIndex, totalImages,
             <source srcSet={normalizedAvif} type="image/avif" />
             <source srcSet={normalizedWebp} type="image/webp" />
             <img
-              className={`modal-image ${isLoaded ? 'visible' : 'hidden'}`}
+              ref={imgRef}
+              className={`modal-image ${isLoaded ? 'visible' : ''}`}
+              style={{ opacity: isLoaded ? 1 : 0 }}
               src={normalizedOriginal}
               alt={currentImage.title || 'Imagen ampliada'}
               onLoad={() => setIsLoaded(true)}
@@ -113,15 +131,5 @@ export default function Modal({ isOpen, currentImage, currentIndex, totalImages,
       </div>
     </div>
   )
-}
-
-// Helper function duplicate (or import it if moved to utils)
-function normalizeImagePath(path) {
-  if (path.startsWith('/')) return path
-  if (path.startsWith('./') || path.startsWith('../')) return path
-  const baseUrl = import.meta.env.BASE_URL
-  const cleanPath = path.startsWith('/') ? path.slice(1) : path
-  const cleanBase = baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`
-  return `${cleanBase}${cleanPath}`
 }
 
