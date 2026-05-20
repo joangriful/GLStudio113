@@ -54,6 +54,39 @@
 }
 
 /* Estilos específicos para Home */
+.full-gallery-actions {
+  display: flex;
+  justify-content: center;
+  margin: -20px 0 70px;
+}
+
+.full-gallery-toggle {
+  align-items: center;
+  min-height: 52px;
+  padding: 0 28px;
+  border: 1px solid var(--accent-color);
+  border-radius: 999px;
+  background: var(--accent-color);
+  color: var(--light-bg);
+  cursor: pointer;
+  display: inline-flex;
+  justify-content: center;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease, color 0.3s ease;
+}
+
+.full-gallery-toggle:hover {
+  background: var(--light-bg);
+  color: var(--accent-color);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+}
+
 .sections-nav-container {
   max-width: 1400px;
   margin: 0 auto;
@@ -137,6 +170,16 @@
 
   .sections-nav-container {
     padding-top: 40px;
+  }
+
+  .full-gallery-actions {
+    margin: -20px 0 50px;
+  }
+
+  .full-gallery-toggle {
+    min-height: 48px;
+    padding: 0 20px;
+    font-size: 0.78rem;
   }
 
   .sections-nav-grid {

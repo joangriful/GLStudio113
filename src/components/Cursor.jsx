@@ -10,37 +10,37 @@ export default function Cursor() {
   const [isEnabled, setIsEnabled] = useState(false)
 
   useEffect(() => {
-    const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
     const finePointerQuery = window.matchMedia('(any-pointer: fine)')
     const hoverQuery = window.matchMedia('(any-hover: hover)')
     const touchOnlyQuery = window.matchMedia('(pointer: coarse) and (hover: none)')
+    const mobileViewportQuery = window.matchMedia('(max-width: 768px)')
 
     const updateEnabled = () => {
       setIsEnabled(
-        !reducedMotionQuery.matches &&
+        !mobileViewportQuery.matches &&
         (finePointerQuery.matches || hoverQuery.matches || !touchOnlyQuery.matches)
       )
     }
 
     const enableOnMouse = (e) => {
-      if (!reducedMotionQuery.matches && (!e.pointerType || e.pointerType === 'mouse')) {
+      if (!mobileViewportQuery.matches && (!e.pointerType || e.pointerType === 'mouse')) {
         setIsEnabled(true)
       }
     }
 
     updateEnabled()
-    reducedMotionQuery.addEventListener('change', updateEnabled)
     finePointerQuery.addEventListener('change', updateEnabled)
     hoverQuery.addEventListener('change', updateEnabled)
     touchOnlyQuery.addEventListener('change', updateEnabled)
+    mobileViewportQuery.addEventListener('change', updateEnabled)
     document.addEventListener('mousemove', enableOnMouse, { passive: true })
     document.addEventListener('pointermove', enableOnMouse, { passive: true })
 
     return () => {
-      reducedMotionQuery.removeEventListener('change', updateEnabled)
       finePointerQuery.removeEventListener('change', updateEnabled)
       hoverQuery.removeEventListener('change', updateEnabled)
       touchOnlyQuery.removeEventListener('change', updateEnabled)
+      mobileViewportQuery.removeEventListener('change', updateEnabled)
       document.removeEventListener('mousemove', enableOnMouse)
       document.removeEventListener('pointermove', enableOnMouse)
     }

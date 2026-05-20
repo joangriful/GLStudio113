@@ -4,6 +4,7 @@ import Home from './pages/Home'
 import Collections from './pages/Collections'
 import Concerts from './pages/Concerts'
 import FashionEvents from './pages/FashionEvents'
+import AllGallery from './pages/AllGallery'
 
 // Obtener el basename para GitHub Pages (debe coincidir con el base en vite.config.js)
 const repoName = import.meta.env.VITE_REPO_NAME || 'GLStudio113'
@@ -18,6 +19,7 @@ function App() {
           <Route path="/collections" element={<Collections />} />
           <Route path="/concerts" element={<Concerts />} />
           <Route path="/fashion-events" element={<FashionEvents />} />
+          <Route path="/gallery" element={<AllGallery />} />
         </Routes>
       </Layout>
     </BrowserRouter>

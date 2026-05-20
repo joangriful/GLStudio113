@@ -43,6 +43,13 @@ export default function Home() {
           </h2>
         </div>
         <Gallery limit={12} />
+
+        <div className="full-gallery-actions">
+          <Link className="full-gallery-toggle" to="/gallery">
+            Ver toda la galería
+          </Link>
+        </div>
+
         <div className="sections-nav-container">
           <div className="sections-nav-grid">
             <Link to="/fashion-events" className="section-nav-card" data-section="fashion">
