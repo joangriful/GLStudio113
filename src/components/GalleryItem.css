@@ -8,6 +8,12 @@
   background: var(--light-gray);
   border: 1px solid var(--border-color);
   transition: all 0.4s ease;
+  color: inherit;
+  display: block;
+  font: inherit;
+  padding: 0;
+  text-align: left;
+  width: 100%;
 }
 
 .gallery-item {

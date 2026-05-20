@@ -31,7 +31,7 @@ export default function OptimizedImage({ src, alt, className = '', loading = 'la
   }, [src])
 
   return (
-    <div className={`optimized-image-container ${className} ${isLoaded ? 'loaded' : 'loading'}`}>
+    <span className={`optimized-image-container ${className} ${isLoaded ? 'loaded' : 'loading'}`}>
       {/* Miniatura de fondo para el blur-up */}
       <img
         src={normalizedThumb}
@@ -54,7 +54,6 @@ export default function OptimizedImage({ src, alt, className = '', loading = 'la
           {...props}
         />
       </picture>
-    </div>
+    </span>
   )
 }
-

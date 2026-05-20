@@ -44,10 +44,35 @@ body {
   background: var(--light-bg);
   color: var(--text-dark);
   overflow-x: hidden;
-  cursor: none;
   line-height: 1.6;
   opacity: 0;
   animation: fadeInBody 0.5s ease 0.2s forwards;
+}
+
+body.custom-cursor-enabled,
+body.custom-cursor-enabled a,
+body.custom-cursor-enabled button,
+body.custom-cursor-enabled .gallery-item,
+body.custom-cursor-enabled .photo-item,
+body.custom-cursor-enabled .nav-item,
+body.custom-cursor-enabled .gallery-box {
+  cursor: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent-color);
+  outline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.001ms !important;
+  }
 }
 
 #root {
@@ -229,6 +254,7 @@ body {
 
 /* Image Optimization Styles */
 .optimized-image-container {
+  display: block;
   position: relative;
   overflow: hidden;
   background: rgba(255, 255, 255, 0.05);

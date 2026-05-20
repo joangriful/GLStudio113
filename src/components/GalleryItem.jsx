@@ -3,9 +3,11 @@ import './GalleryItem.css'
 
 export default function GalleryItem({ image, onClick, isMainGallery = false }) {
   return (
-    <div 
+    <button
+      type="button"
       className={isMainGallery ? 'gallery-item' : 'photo-item'}
       data-category={image.category?.toLowerCase()}
+      aria-label={`Ver ${image.title}${image.category ? ` de ${image.category}` : ''}`}
       onClick={() => onClick(image)}
     >
       <OptimizedImage
@@ -15,12 +17,12 @@ export default function GalleryItem({ image, onClick, isMainGallery = false }) {
         className="gallery-item-image"
       />
       {isMainGallery && (
-        <div className="gallery-item-info">
-          <div className="gallery-item-title">{image.title}</div>
-          <div className="gallery-item-category">{image.category}</div>
-        </div>
+        <span className="gallery-item-info">
+          <span className="gallery-item-title">{image.title}</span>
+          <span className="gallery-item-category">{image.category}</span>
+        </span>
       )}
-    </div>
+    </button>
   )
 }
 

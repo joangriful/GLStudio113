@@ -62,7 +62,10 @@ export default function Navigation() {
         className={`menu-toggle ${isOpen ? 'active' : ''}`}
         id="menuToggle"
         onClick={() => setIsOpen(!isOpen)}
-        aria-label="Toggle menu"
+        aria-label={isOpen ? 'Cerrar menú' : 'Abrir menú'}
+        aria-expanded={isOpen}
+        aria-controls="floatingNav"
+        type="button"
       >
         <span className="menu-icon">
           <span className="menu-line"></span>
@@ -71,31 +74,32 @@ export default function Navigation() {
         </span>
       </button>
 
-      <nav className={`floating-nav ${isOpen ? 'active' : ''}`} id="floatingNav">
-        <div className="nav-item" onClick={() => handleNavClick('home')}>
+      <nav className={`floating-nav ${isOpen ? 'active' : ''}`} id="floatingNav" aria-label="Navegación principal">
+        <button type="button" className="nav-item" onClick={() => handleNavClick('home')}>
           <span className="nav-number">01</span>
           <span className="nav-label">Inicio</span>
-        </div>
-        <div className="nav-item" onClick={() => handleNavClick('fashion-events')}>
+        </button>
+        <button type="button" className="nav-item" onClick={() => handleNavClick('fashion-events')}>
           <span className="nav-number">02</span>
           <span className="nav-label">Eventos de Moda</span>
-        </div>
-        <div className="nav-item" onClick={() => handleNavClick('collections')}>
+        </button>
+        <button type="button" className="nav-item" onClick={() => handleNavClick('collections')}>
           <span className="nav-number">03</span>
           <span className="nav-label">Colecciones</span>
-        </div>
-        <div className="nav-item" onClick={() => handleNavClick('concerts')}>
+        </button>
+        <button type="button" className="nav-item" onClick={() => handleNavClick('concerts')}>
           <span className="nav-number">04</span>
           <span className="nav-label">Conciertos</span>
-        </div>
-        <div className="nav-item" onClick={() => handleNavClick('about')}>
+        </button>
+        <button type="button" className="nav-item" onClick={() => handleNavClick('about')}>
           <span className="nav-number">05</span>
           <span className="nav-label">About Me</span>
-        </div>
+        </button>
         <button 
           className="nav-item theme-toggle" 
           onClick={toggleTheme}
-          aria-label="Toggle dark mode"
+          aria-label={theme === 'dark' ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'}
+          type="button"
         >
           <span className="nav-number">06</span>
           <span className="nav-label">{theme === 'dark' ? 'Modo Claro' : 'Modo Oscuro'}</span>

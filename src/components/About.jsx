@@ -5,8 +5,8 @@ import './About.css'
 export default function About() {
   const [currentSlide, setCurrentSlide] = useState(0)
   const aboutImages = [
-    { src: 'images/about/P1100644.JPG', alt: 'Joan Griful Lara' },
-    { src: 'images/about/P1100645.JPG', alt: 'Joan Griful Lara' }
+    { src: 'images/about/P1100644.webp', alt: 'Joan Griful Lara' },
+    { src: 'images/about/P1100645.webp', alt: 'Joan Griful Lara' }
   ]
 
   useEffect(() => {

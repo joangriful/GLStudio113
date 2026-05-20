@@ -73,6 +73,12 @@
   transform: scale(1);
   transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
   border: 1px solid var(--border-color);
+  color: inherit;
+  display: block;
+  font: inherit;
+  padding: 0;
+  text-align: left;
+  width: 100%;
 }
 
 .gallery-item:hover {
@@ -116,6 +122,7 @@
 
 .gallery-item-info {
   position: absolute;
+  display: block;
   bottom: 0;
   left: 0;
   right: 0;
@@ -131,6 +138,7 @@
 }
 
 .gallery-item-title {
+  display: block;
   font-size: 1.2rem;
   font-weight: 600;
   margin-bottom: 5px;
@@ -138,6 +146,7 @@
 }
 
 .gallery-item-category {
+  display: block;
   font-size: 0.85rem;
   color: rgba(255, 255, 255, 0.8);
   text-transform: uppercase;

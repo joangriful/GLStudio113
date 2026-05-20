@@ -1,15 +1,23 @@
 import { useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import Hero from '../components/Hero'
 import Gallery from '../components/Gallery'
 import About from '../components/About'
 import './Home.css'
 
 export default function Home() {
+  const location = useLocation()
+
   useEffect(() => {
-    // Scroll suave al inicio al cargar
+    if (location.hash === '#about') {
+      requestAnimationFrame(() => {
+        document.getElementById('about')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      })
+      return
+    }
+
     window.scrollTo(0, 0)
-  }, [])
+  }, [location.hash])
 
   return (
     <>
@@ -59,4 +67,3 @@ export default function Home() {
     </>
   )
 }
-

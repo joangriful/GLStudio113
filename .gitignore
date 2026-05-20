@@ -10,6 +10,9 @@ coverage/
 dist/
 build/
 
+# Local source originals kept out of the deployed public bundle
+source-images/
+
 # Misc
 .DS_Store
 .env.local

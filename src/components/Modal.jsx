@@ -18,6 +18,9 @@ export default function Modal({ isOpen, currentImage, currentIndex, totalImages,
   const [touchStart, setTouchStart] = useState({ x: 0, y: 0 })
   const [isLoaded, setIsLoaded] = useState(false)
   const imgRef = useRef(null)
+  const contentRef = useRef(null)
+  const closeButtonRef = useRef(null)
+  const previousFocusRef = useRef(null)
 
   // Reset isLoaded cuando cambia la imagen
   useEffect(() => {
@@ -27,6 +30,20 @@ export default function Modal({ isOpen, currentImage, currentIndex, totalImages,
       setIsLoaded(true)
     }
   }, [currentImage])
+
+  useEffect(() => {
+    if (!isOpen) return
+
+    previousFocusRef.current = document.activeElement
+    const focusFrame = requestAnimationFrame(() => {
+      closeButtonRef.current?.focus()
+    })
+
+    return () => {
+      cancelAnimationFrame(focusFrame)
+      previousFocusRef.current?.focus?.()
+    }
+  }, [isOpen])
 
   const handleBackdropClick = (e) => {
     if (e.target === e.currentTarget) {
@@ -59,6 +76,32 @@ export default function Modal({ isOpen, currentImage, currentIndex, totalImages,
     }
   }
 
+  const handleKeyDown = (e) => {
+    if (e.key !== 'Tab' || !contentRef.current) return
+
+    const focusableElements = Array.from(
+      contentRef.current.querySelectorAll(
+        'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])'
+      )
+    )
+
+    if (focusableElements.length === 0) {
+      e.preventDefault()
+      return
+    }
+
+    const firstElement = focusableElements[0]
+    const lastElement = focusableElements[focusableElements.length - 1]
+
+    if (e.shiftKey && document.activeElement === firstElement) {
+      e.preventDefault()
+      lastElement.focus()
+    } else if (!e.shiftKey && document.activeElement === lastElement) {
+      e.preventDefault()
+      firstElement.focus()
+    }
+  }
+
   if (!isOpen || !currentImage) return null
 
   const sources = generateImageSources(currentImage.src)
@@ -70,12 +113,24 @@ export default function Modal({ isOpen, currentImage, currentIndex, totalImages,
   return (
     <div
       className={`modal ${isOpen ? 'active' : ''}`}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modal-title"
       onClick={handleBackdropClick}
+      onKeyDown={handleKeyDown}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        <span className="modal-close" onClick={onClose}>&times;</span>
+      <div className="modal-content" ref={contentRef} onClick={(e) => e.stopPropagation()}>
+        <button
+          className="modal-close"
+          onClick={onClose}
+          type="button"
+          aria-label="Cerrar imagen ampliada"
+          ref={closeButtonRef}
+        >
+          &times;
+        </button>
 
         {totalImages > 1 && (
           <>
@@ -125,7 +180,7 @@ export default function Modal({ isOpen, currentImage, currentIndex, totalImages,
         </div>
 
         <div className="modal-info">
-          <h3 className="modal-title">{currentImage.title}</h3>
+          <h3 className="modal-title" id="modal-title">{currentImage.title}</h3>
           <p className="modal-category">{currentImage.category}</p>
         </div>
       </div>

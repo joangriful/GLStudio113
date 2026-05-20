@@ -20,13 +20,19 @@
 }
 
 .gallery-box-header {
+  width: 100%;
   padding: 30px;
+  border: 0;
   border-bottom: 1px solid var(--border-color);
   display: flex;
   justify-content: space-between;
   align-items: center;
   background: var(--light-gray);
   transition: background 0.3s ease;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
 }
 
 .gallery-box.expanded .gallery-box-header {
@@ -35,6 +41,7 @@
 }
 
 .gallery-box-title {
+  display: block;
   font-size: 1.5rem;
   font-weight: 600;
   color: var(--text-dark);
@@ -89,6 +96,8 @@
 }
 
 .preview-item {
+  border: 1px solid var(--border-color);
+  padding: 0;
   aspect-ratio: 4/3;
   overflow: hidden;
   border-radius: 12px;
@@ -96,7 +105,8 @@
   background: var(--light-gray);
   cursor: pointer;
   transition: all 0.3s ease;
-  border: 1px solid var(--border-color);
+  color: inherit;
+  font: inherit;
 }
 
 .preview-item:hover {
@@ -186,6 +196,8 @@
 }
 
 .expanded-item {
+  border: 2px solid var(--border-color);
+  padding: 0;
   flex-shrink: 0;
   width: 350px;
   height: 450px;
@@ -195,11 +207,13 @@
   background: var(--light-gray);
   cursor: pointer;
   transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-  border: 2px solid var(--border-color);
   opacity: 0;
   transform: translateX(50px) scale(0.9);
   animation: slideInFromRight 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  color: inherit;
+  font: inherit;
+  text-align: left;
 }
 
 .expanded-item:nth-child(1) { animation-delay: 0.05s; }
@@ -272,6 +286,7 @@
 
 .expanded-item-title {
   position: absolute;
+  display: block;
   bottom: 20px;
   left: 20px;
   right: 20px;

@@ -22,7 +22,7 @@ export function useModal() {
 
   const closeModal = () => {
     setIsOpen(false)
-    document.body.style.overflow = 'auto'
+    document.body.style.overflow = ''
     setTimeout(() => {
       setCurrentImage(null)
       setGallery([])
@@ -54,6 +54,12 @@ export function useModal() {
     document.addEventListener('keydown', handleKeyDown)
     return () => document.removeEventListener('keydown', handleKeyDown)
   }, [isOpen, currentIndex, gallery.length])
+
+  useEffect(() => {
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [])
 
   return {
     isOpen,
